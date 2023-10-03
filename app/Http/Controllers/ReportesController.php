@@ -62,6 +62,6 @@ class ReportesController extends Controller
 
 
 
-        return $pdf->stream($retencion->nro_comprobante . '_' . date('Ymd', strtotime($retencion->created_at)) . '_' . $retencion->rif);
+        return $pdf->download($retencion->nro_comprobante . '_' . date('Ymd', strtotime($retencion->created_at)) . '_' . $retencion->rif);
     }
 }
