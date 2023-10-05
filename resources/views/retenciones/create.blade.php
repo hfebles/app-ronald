@@ -20,8 +20,17 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-floating mb-3">
-                                <select class="form-select" name="client_id" aria-label="Seleccione un cliente">
-                                    <option selected>Clientes</option>
+                                <select class="form-select" name="empresa_id" aria-label="Seleccione una empresa">
+                                    <option selected>Empresa</option>
+                                    @foreach ($propias as $propia)
+                                        <option value="{{ $propia->id }}">{{ $propia->name_empresa }}</option>
+                                    @endforeach
+                                </select>
+                                <label>Seleccione</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" name="client_id" aria-label="Seleccione un proveedor">
+                                    <option selected>Proveedor</option>
                                     @foreach ($clientes as $cliente)
                                         <option value="{{ $cliente->id }}">{{ $cliente->name }}</option>
                                     @endforeach

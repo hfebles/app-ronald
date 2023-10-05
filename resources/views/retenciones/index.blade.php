@@ -18,22 +18,23 @@
                 <thead>
                     <tr>
                         <th class="d-none d-sm-block">#</th>
-                        <th>Factura</th>
+                        <th>comprobante</th>
                         <th>Fecha</th>
                         <th>Cliente</th>
-                        <th>RIF</th>
-                        <th class="d-none d-sm-block">acciones</th>
+                        <th>Empresa</th>
+                        <th class="">acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($retenciones as $k => $retencion)
-                        <tr style="cursor:pointer;" onclick="window.location='retencion-pdf/{{ $retencion->id }}';">
+                        <tr>
                             <td class="d-none d-sm-block">{{ ++$k }}</td>
-                            <td>{{ $retencion->nro_factura }}</td>
-                            <td>{{ date('d/m/Y', strtotime($retencion->fecha)) }}</td>
+                            <td style="cursor:pointer;" onclick="window.location='retencion-pdf/{{ $retencion->id }}';">
+                                {{ $retencion->nro_comprobante }}</td>
+                            <td>{{ date('d/m/Y', strtotime($retencion->created_at)) }}</td>
                             <td>{{ $retencion->name }}</td>
-                            <td>{{ $retencion->rif }}</td>
-                            <td class="d-none d-sm-block"></td>
+                            <td>{{ $retencion->name_empresa }}</td>
+                            <td class=""></td>
                         </tr>
                     @endforeach
                 </tbody>

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('nro_comprobante')->nullable();
             $table->date('fecha_factura');
             $table->double('monto', 20, 2);
+            $table->tinyInteger('empresa_id');
             $table->boolean('status')->default(0);
             $table->timestamps();
         });
