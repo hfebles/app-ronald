@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('address_empresa');
             $table->string('telefono')->nullable();
             $table->string('mail')->nullable();
+            $table->string('nro_correlativo')->nullable();
             $table->timestamps();
         });
     }

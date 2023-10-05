@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Clientes;
 use App\Models\Retencion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RetencionController extends Controller
 {
@@ -23,8 +24,10 @@ class RetencionController extends Controller
     public function create()
     {
         $clientes = Clientes::select('name', 'id')->get();
+        $propia = DB::table('datos_empresas')->get();
 
-        // return $clientes;
+        // return $propia;
+
         return view('retenciones.create', compact('clientes'));
     }
 
@@ -50,6 +53,7 @@ class RetencionController extends Controller
         // Actualizamos el numero de comprobante.
         Retencion::find($retencion->id)->update(['nro_comprobante' => date('Ym', strtotime($retencion->created_at)) . $correlativo]);
 
-        return redirect()->route('retencionPdf', $retencion->id);
+        return (new ReportesController)->retencionPdf($retencion->id);
+        return back();
     }
 }

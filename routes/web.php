@@ -31,7 +31,10 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     Route::resource('/clientes', ClientesController::class);
-    Route::resource('/reportes', ReportesController::class);
+    Route::post('/clientes/consulta', [ClientesController::class, 'consulta_rif'])->name('clientes.consulta');
+
     Route::resource('/retenciones', RetencionController::class);
+
+    Route::resource('/reportes', ReportesController::class);
     Route::get('retencion-pdf/{id}', [ReportesController::class, 'retencionPdf'])->name('retencionPdf');
 });

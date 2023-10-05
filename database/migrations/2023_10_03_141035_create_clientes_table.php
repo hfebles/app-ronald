@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('rif');
+            $table->string('rif')->unique();
             $table->text('address');
             $table->boolean('ag')->default(0);
             $table->tinyInteger('percent');

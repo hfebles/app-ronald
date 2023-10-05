@@ -20,5 +20,13 @@ class CreateEmpresaSeeder extends Seeder
             'telefono' => '000',
             'mail' => '1@1.COM',
         ]);
+
+        DatosEmpresa::create([
+            'name_empresa' => 'INSTRUELECT MULTISERVICIOS, C.A.2',
+            'rif_empresa' => 'J4020403852',
+            'address_empresa' => 'CALLE 15 CASA NRO. 15-26 CONJUNTO RESIDENCIAL EL BOSQUE SECTOR LOS CEREOS CAGUA ESTADO ARAGUA ZONA POSTAL 2122',
+            'telefono' => '000',
+            'mail' => '1@1.COM',
+        ]);
     }
 }
