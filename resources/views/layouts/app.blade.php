@@ -20,6 +20,10 @@
     <!-- Incluye la biblioteca JavaScript de Bootstrap y sus dependencias -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
 
 
@@ -80,22 +84,15 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    Salir
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
                             </li>
                         @endguest
                     </ul>

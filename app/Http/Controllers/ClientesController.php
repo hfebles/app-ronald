@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Clientes;
 use Illuminate\Http\Request;
 
+use function Laravel\Prompts\table;
+
 class ClientesController extends Controller
 {
     public function index()
     {
 
-        $clientes = Clientes::all();
+        $clientes = Clientes::paginate(
+            5
+        );
         return view('clientes.index', compact('clientes'));
     }
 
@@ -37,6 +41,19 @@ class ClientesController extends Controller
         return redirect()->route('clientes.index');
     }
 
+    public function eliminar(Request $request)
+    {
+        $eliminado = Clientes::where('id', $request->id)->delete();
+
+        if ($eliminado) {
+            return response()->json(['message' => 'success', 'status' => 200]);
+        } else {
+            return response()->json(['message' => 'error', 'status' => 400]);
+        }
+
+        return $eliminado;
+    }
+
 
     public function consulta_rif(Request $request)
     {
@@ -53,5 +70,26 @@ class ClientesController extends Controller
         } else {
             return response()->json(['message' => 'success', 'status' => 200]);
         }
+    }
+
+    public function edit($id)
+    {
+        $cliente = Clientes::find($id);
+        return response()->json(['message' => 'success', 'status' => 200, 'rif' => $cliente->rif]);
+    }
+
+
+    public function update(Request $request, $id)
+    {
+
+        $cliente = Clientes::find($id);
+        $cliente->name = strtoupper($request->name);
+        $cliente->rif = strtoupper($request->rif);
+        $cliente->address = strtoupper($request->address);
+        $cliente->phone = $request->phone;
+        $cliente->mail = $request->mail;
+        $cliente->save();
+
+        return redirect()->route('clientes.index');
     }
 }

@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('/clientes', ClientesController::class);
     Route::post('/clientes/consulta', [ClientesController::class, 'consulta_rif'])->name('clientes.consulta');
+    Route::post('/clientes/eliminar', [ClientesController::class, 'eliminar'])->name('clientes.eliminar');
 
     Route::resource('/retenciones', RetencionController::class);
 

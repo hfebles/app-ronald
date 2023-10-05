@@ -31,13 +31,20 @@
                             <td>{{ $cliente->rif }}</td>
                             <td>{{ $cliente->phone }}</td>
                             <td class="">{{ $cliente->mail }}</td>
-                            <td class="">
-                                <a class="btn btn-sm btn-warning" onclick="modalEditar({{ $cliente->id }})">Editar</a>
+                            <td class=" text-center">
+                                <a class="btn btn-sm btn-warning" onclick="modalEditar({{ $cliente->id }})"><i
+                                        class="fa-solid fa-pen-to-square"></i></a>
+                                <a class="btn btn-sm btn-danger" onclick="eliminar({{ $cliente->id }})"><i
+                                        class="fa-solid fa-trash-can"></i></a>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+
+        </div>
+        <div class="col-12 mt-3 d-flex justify-content-center align-items-center">
+            {{ $clientes->render() }}
         </div>
     </div>
     <!-- Button trigger modal -->
@@ -51,14 +58,120 @@
 
         // var myModal = document.getElementById('editModal')
 
+        function eliminar(id) {
+            if (window.confirm("¿Estás seguro de que deseas borrar este elemento?")) {
+
+
+                fetch('{{ route('clientes.eliminar') }}', {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            id: id,
+                        }),
+                        headers: {
+                            'content-type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken
+                        }
+                    }).then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error de red o solicitud fallida');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data)
+                        if (data.status == 200) {
+                            alert('Eliminado con exito');
+                            location.reload()
+                        } else {
+                            alert('No se puede eliminar')
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            } else {
+                return false
+            }
+        }
+
 
         const myModal = new bootstrap.Modal(document.getElementById('editModal'))
 
 
         function modalEditar(id) {
 
-            myModal.show()
-            console.log(id)
+            fetch(`/clientes/${id}/edit`, {
+                    method: 'GET',
+                    headers: {
+                        'content-type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                }).then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error de red o solicitud fallida');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    var cliente = data.rif
+                    linea = '';
+
+                    linea += `
+                    <form action="clientes/${id}" method="post">
+                        {{ method_field('PUT') }}
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                        <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-floating mb-3 input-group ">
+                                                <input onkeyup="validaConsulta(this.value)" minlength="10" maxlength="10"
+                                                    id="rif2" type="text" value="${cliente}" name="rif"
+                                                    class="form-control form-control-sm" placeholder="J1234567890">
+                                                <button onclick="consultaRif(document.getElementById('rif2'), 2)"
+                                                    class="btn btn-outline-secondary" id='btn-consulta'
+                                                    type="button">consultar</button>
+                                                <label>RIF</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input required id="clientname2" disabled type="text" name="name"
+                                                    class="form-control form-control-sm" placeholder="Nombre">
+                                                <label>Nombre</label>
+                                            </div>
+
+                                            <div class="form-floating mb-3">
+                                                <textarea required id="clientaddress2" disabled class="form-control form-control-sm" name="address"
+                                                    placeholder="Direccion"></textarea>
+                                                <label>Direccion</label>
+                                            </div>
+                                            <div class="form-floating my-3">
+                                                <input minlength="11" maxlength="11" required id="clientphone2" disabled
+                                                    type="text" class="form-control form-control-sm" name="phone"
+                                                    placeholder="04XX0000000">
+                                                <label>Telefono</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input required id="clientmail2" disabled type="email"
+                                                    class="form-control form-control-sm" name="mail"
+                                                    placeholder="name@example.com">
+                                                <label>Correo</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 text-center">
+                                            <button type="submit" id="btn-save2" disabled
+                                                class="btn btn-success">Guardar</button>
+                                        </div>
+                                    </div>
+                                    </form>`
+
+                    document.querySelector('#edit-data').innerHTML = linea
+                    myModal.show()
+
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+
+            // console.log(id)
         }
 
         function validarCampoNumerico() {
@@ -74,7 +187,7 @@
         }
 
 
-        function consultaRif(value) {
+        function consultaRif(value, edit = '') {
 
             var rif = value.value
 
@@ -108,7 +221,20 @@
             }).then(response => {
                 return response.json()
             }).then(data => {
-                if (data.status === 400) {
+                if (edit == '2') {
+                    console.log('asdasd')
+                    document.querySelector('#clientname2').disabled = false
+                    document.querySelector('#clientaddress2').disabled = false
+                    document.querySelector('#clientphone2').disabled = false
+                    document.querySelector('#clientmail2').disabled = false
+                    document.querySelector('#btn-save2').disabled = false
+                    document.querySelector('#clientname2').value = data.data.name;
+                    document.querySelector('#clientaddress2').value = data.data.address;
+                    document.querySelector('#clientphone2').value = data.data.phone;
+                    document.querySelector('#clientmail2').value = data.data.mail;
+                    document.querySelector('#rif2').focus()
+
+                } else if (data.status === 400) {
                     alert('El cliente ya existe');
                     document.querySelector('#rif').focus()
                     document.querySelector('#clientname').value = data.data.name;
@@ -218,9 +344,11 @@
                     <h5 class="modal-title" id="exampleModalLabel">Editar cliente</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
                 <div class="modal-body" id='edit-data'>
 
                 </div>
+
             </div>
         </div>
     </div>
