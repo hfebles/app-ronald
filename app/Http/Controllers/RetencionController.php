@@ -60,7 +60,6 @@ class RetencionController extends Controller
 
         DB::table('datos_empresas')->where('id', $request->empresa_id)->update(['nro_correlativo' => (int)$nro_correlativo + 1]);
 
-        return (new ReportesController)->retencionPdf($retencion->id);
-        return back();
+        return redirect()->route('retenciones.index');
     }
 }

@@ -22,19 +22,18 @@
                         <th>Fecha</th>
                         <th>Cliente</th>
                         <th>Empresa</th>
-                        <th class="">acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($retenciones as $k => $retencion)
                         <tr>
                             <td class="d-none d-sm-block">{{ ++$k }}</td>
-                            <td style="cursor:pointer;" onclick="window.location='retencion-pdf/{{ $retencion->id }}';">
-                                {{ $retencion->nro_comprobante }}</td>
+                            <td><a href="retencion-pdf/{{ $retencion->id }}"
+                                    target="_blank">{{ $retencion->nro_comprobante }}</a>
+                            </td>
                             <td>{{ date('d/m/Y', strtotime($retencion->created_at)) }}</td>
                             <td>{{ $retencion->name }}</td>
                             <td>{{ $retencion->name_empresa }}</td>
-                            <td class=""></td>
                         </tr>
                     @endforeach
                 </tbody>

@@ -27,7 +27,7 @@ class ClientesController extends Controller
 
     public function store(Request $request)
     {
-
+        // return;
         $cliente = new Clientes();
         $cliente->name = strtoupper($request->name);
         $cliente->rif = strtoupper($request->rif);
@@ -38,7 +38,8 @@ class ClientesController extends Controller
         $cliente->mail = $request->mail;
         $cliente->save();
 
-        return redirect()->route('clientes.index');
+        // if (http://localhost:8000/retenciones/create)
+        return redirect()->away(redirect()->getUrlGenerator()->previous());
     }
 
     public function eliminar(Request $request)
@@ -58,12 +59,8 @@ class ClientesController extends Controller
     public function consulta_rif(Request $request)
     {
 
-        // return $request;
 
         $consulta = Clientes::where('rif', '=', $request->rif)->get();
-
-        // return $consulta;
-
 
         if (count($consulta) > 0) {
             return response()->json(['message' => 'error', 'status' => 400, 'data' => $consulta[0]]);

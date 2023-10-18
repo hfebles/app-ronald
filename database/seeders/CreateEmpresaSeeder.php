@@ -16,15 +16,15 @@ class CreateEmpresaSeeder extends Seeder
         DatosEmpresa::create([
             'name_empresa' => 'INSTRUELECT MULTISERVICIOS, C.A.',
             'rif_empresa' => 'J402040385',
-            'address_empresa' => 'CALLE 15 CASA NRO. 15-26 CONJUNTO RESIDENCIAL EL BOSQUE SECTOR LOS CEREOS CAGUA ESTADO ARAGUA ZONA POSTAL 2122',
+            'address_empresa' => 'CALLE 15 CASA NRO. 15-26 CONJUNTO RESIDENCIAL EL BOSQUE SECTOR LOS CEREZOS CAGUA ESTADO ARAGUA ZONA POSTAL 2122',
             'telefono' => '000',
             'mail' => '1@1.COM',
         ]);
 
         DatosEmpresa::create([
-            'name_empresa' => 'INSTRUELECT MULTISERVICIOS, C.A.2',
-            'rif_empresa' => 'J4020403852',
-            'address_empresa' => 'CALLE 15 CASA NRO. 15-26 CONJUNTO RESIDENCIAL EL BOSQUE SECTOR LOS CEREOS CAGUA ESTADO ARAGUA ZONA POSTAL 2122',
+            'name_empresa' => 'INSTRUELECT IMPORT, C.A.',
+            'rif_empresa' => 'J412635530',
+            'address_empresa' => 'CALLE LA CEIBA LOCAL PARCELA NRO 13 SECTOR SAMAN DE GUERE TURMERO ARAGUA ZONA POSTAL 2115',
             'telefono' => '000',
             'mail' => '1@1.COM',
         ]);
