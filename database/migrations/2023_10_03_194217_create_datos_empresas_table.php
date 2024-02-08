@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('telefono')->nullable();
             $table->string('mail')->nullable();
             $table->string('nro_correlativo')->nullable();
+            $table->date('anio_fiscal');
             $table->timestamps();
         });
     }

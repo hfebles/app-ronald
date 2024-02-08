@@ -19,7 +19,9 @@ class ReportesController extends Controller
             ->get()[0];
 
 
-        $empresa = DatosEmpresa::all()[0];
+        $empresa = DatosEmpresa::find($retencion->empresa_id);
+
+
 
         $rif_cliente = preg_replace('/(\D)(\d{8})(\d)/', '$1-$2-$3', $retencion->rif);
 
