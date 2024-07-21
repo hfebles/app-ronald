@@ -62,12 +62,12 @@
             </td>
         </tr>
         <tr class="text-center text-uppercase">
-            <td class="fuente-14">{{ $empresa->name_empresa }}</td>
-            <td class="fuente-14">{{ preg_replace('/(\D)(\d{8})(\d)/', '$1-$2-$3', $empresa->rif_empresa) }}</td>
+            <td class="fuente-14">{{ $retencion->name_empresa }}</td>
+            <td class="fuente-14">{{ preg_replace('/(\D)(\d{8})(\d)/', '$1-$2-$3', $retencion->rif_empresa) }}</td>
         </tr>
         <tr class="text-center text-uppercase">
             <td class="fuente-14" colspan="2">
-                {{ $empresa->address_empresa }}
+                {{ $retencion->address_empresa }}
             </td>
         </tr>
     </table>
@@ -100,7 +100,7 @@
             <td class="align-middle" rowspan="2">compras exentas</td>
             <td class="align-middle" rowspan="2">base imponible</td>
             <td class="align-middle" rowspan="2">% alicuota</td>
-            <td class="align-middle" rowspan="2">monto iva</td>
+            <td class="align-middle" rowspan="2">monto</td>
             <td class="align-middle" rowspan="2">iva retenido</td>
         </tr>
         <tr class="text-center text-uppercase">

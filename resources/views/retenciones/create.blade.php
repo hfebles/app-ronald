@@ -17,12 +17,13 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    {!! Form::open(['route' => 'retenciones.store', 'method' => 'POST']) !!}
+                    {!! Form::open(['route' => 'retenciones.store', 'method' => 'POST', 'id' => 'myForm']) !!}
                     <div class="row">
                         <div class="col-12">
                             <div class="form-floating mb-3">
-                                <select class="form-select" name="empresa_id" aria-label="Seleccione una empresa">
-                                    <option selected>Empresa</option>
+                                <select class="form-select" name="empresa_id" id="empresa_id"
+                                    aria-label="Seleccione una empresa">
+                                    <option value="" selected>Empresa</option>
                                     @foreach ($propias as $propia)
                                         <option value="{{ $propia->id }}">{{ $propia->name_empresa }}</option>
                                     @endforeach
@@ -30,37 +31,44 @@
                                 <label>Seleccione</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <select class="form-select" name="client_id" aria-label="Seleccione un proveedor">
-                                    <option selected>Proveedor</option>
-                                    @foreach ($clientes as $cliente)
-                                        <option value="{{ $cliente->id }}">{{ $cliente->name }}</option>
+                                <select class="form-select" name="proveedor_id" id="proveedor_id"
+                                    aria-label="Seleccione un proveedor">
+                                    <option value="" selected>Proveedor</option>
+                                    @foreach ($proveedores as $proveedor)
+                                        <option value="{{ $proveedor->id }}">{{ $proveedor->name }}</option>
                                     @endforeach
 
                                 </select>
                                 <label>Seleccione</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" name="nro_factura" class="form-control form-control-sm"
-                                    placeholder="000000000000">
+                                <input onkeyup="validaNroFactura(this)" type="text" name="nro_factura" id="nro_factura"
+                                    class="form-control form-control-sm" placeholder="000000000000">
                                 <label>Numero de Factura</label>
+                                <span class="text-danger" style="display: none" id="error_nro_factura">La factura ya
+                                    existe, debe verificar este dato. Debe ser unico.</span>
+
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" name="nro_control" class="form-control form-control-sm"
-                                    placeholder="000000000000">
+                                <input onkeyup="validaNroControl(this)" type="text" name="nro_control" id="nro_control"
+                                    class="form-control form-control-sm" placeholder="000000000000">
                                 <label>Numero de control factura</label>
+                                <span class="text-danger" style="display: none" id="error_nro_control">El numero de control
+                                    ya existe, debe verificar este dato. Debe ser unico.</span>
                             </div>
                             <div class="form-floating my-3">
-                                <input type="date" class="form-control form-control-sm" name="fecha" placeholder="">
+                                <input type="date" max="{{ date('Y-m-d') }}" class="form-control form-control-sm"
+                                    name="fecha" id="fecha" placeholder="">
                                 <label>Fecha</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control form-control-sm" name="monto"
+                                <input type="text" class="form-control form-control-sm" name="monto" id="monto"
                                     placeholder="Monto">
                                 <label>Monto</label>
                             </div>
                         </div>
                         <div class="col-12 text-center">
-                            <button class="btn btn-success">Guardar</button>
+                            <button id="guardarRetencion" class="btn btn-success">Guardar</button>
                         </div>
                     </div>
                     {!! Form::close() !!}
@@ -83,7 +91,11 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    {!! Form::open(['route' => 'clientes.store', 'method' => 'POST', 'onsubmit' => 'return validarCampoNumerico()']) !!}
+                                    {!! Form::open([
+                                        'route' => 'proveedor.store',
+                                        'method' => 'POST',
+                                        'onsubmit' => 'return validarCampoNumerico()',
+                                    ]) !!}
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-floating mb-3 input-group ">
@@ -139,6 +151,130 @@
         const csrfToken = "{{ csrf_token() }}";
         const expresionRegularRif = /^[VJGjvg][0-9]{9}$/;
 
+        document.getElementById("myForm").addEventListener('submit', validar);
+
+
+        function validar(e) {
+
+            console.log(document.getElementById("empresa_id").value)
+            if (document.getElementById("empresa_id").value == '') {
+                document.getElementById("empresa_id").focus();
+                // document.getElementById('guardarRetencion').disabled = true
+                document.getElementById("empresa_id").classList.add("is-invalid")
+                e.preventDefault();
+                return false;
+
+            } else {
+                document.getElementById("empresa_id").classList.remove("is-invalid")
+                document.getElementById("empresa_id").classList.add("is-valid")
+            }
+            if (document.getElementById("proveedor_id").value == '') {
+                document.getElementById("proveedor_id").focus();
+                // document.getElementById('guardarRetencion').disabled = true
+                document.getElementById("proveedor_id").classList.add("is-invalid")
+                e.preventDefault();
+                return false;
+            } else {
+                document.getElementById("proveedor_id").classList.remove("is-invalid")
+                document.getElementById("proveedor_id").classList.add("is-valid")
+            }
+            if (document.getElementById("nro_factura").value == '') {
+                document.getElementById("nro_factura").focus();
+                // document.getElementById('guardarRetencion').disabled = true
+                document.getElementById("nro_factura").classList.add("is-invalid")
+                e.preventDefault();
+                return false;
+            } else {
+                document.getElementById("nro_factura").classList.remove("is-invalid")
+                document.getElementById("nro_factura").classList.add("is-valid")
+            }
+            if (document.getElementById("nro_control").value == '') {
+                document.getElementById("nro_control").focus();
+                // document.getElementById('guardarRetencion').disabled = true
+                document.getElementById("nro_control").classList.add("is-invalid")
+                e.preventDefault();
+                return false;
+            } else {
+                document.getElementById("nro_control").classList.remove("is-invalid")
+                document.getElementById("nro_control").classList.add("is-valid")
+            }
+            if (document.getElementById("fecha").value == '') {
+                document.getElementById("fecha").focus();
+                // document.getElementById('guardarRetencion').disabled = true
+                document.getElementById("fecha").classList.add("is-invalid")
+                e.preventDefault();
+                return false;
+            } else {
+                document.getElementById("fecha").classList.remove("is-invalid")
+                document.getElementById("fecha").classList.add("is-valid")
+            }
+            if (document.getElementById("monto").value == '') {
+                document.getElementById("monto").focus();
+                // document.getElementById('guardarRetencion').disabled = true
+                document.getElementById("monto").classList.add("is-invalid")
+                e.preventDefault();
+                return false;
+            } else {
+                document.getElementById("monto").classList.remove("is-invalid")
+                document.getElementById("monto").classList.add("is-valid")
+            }
+            return true;
+
+        }
+
+        function validaNroFactura(nro_factura) {
+
+            fetch('{{ route('retenciones.nro-factura') }}', {
+                method: 'POST',
+                body: JSON.stringify({
+                    nro_factura: nro_factura.value,
+                }),
+                headers: {
+                    'content-type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            }).then(response => {
+                return response.json()
+            }).then(data => {
+                if (data.id) {
+                    document.querySelector('#error_nro_factura').style.display = "";
+                    document.getElementById('guardarRetencion').disabled = true
+                    nro_factura.classList.add("is-invalid")
+                } else {
+                    document.querySelector('#error_nro_factura').style.display = "none";
+                    document.getElementById('guardarRetencion').disabled = false
+                    nro_factura.classList.remove("is-invalid")
+                }
+            });
+        }
+
+        function validaNroControl(nro_control) {
+            console.log(nro_control)
+            fetch('{{ route('retenciones.nro-control') }}', {
+                method: 'POST',
+                body: JSON.stringify({
+                    nro_control: nro_control.value,
+                }),
+                headers: {
+                    'content-type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            }).then(response => {
+                return response.json()
+            }).then(data => {
+                if (data.id) {
+                    document.querySelector('#error_nro_control').style.display = "";
+                    document.getElementById('guardarRetencion').disabled = true
+                    nro_control.classList.add("is-invalid")
+                } else {
+                    document.querySelector('#error_nro_control').style.display = "none";
+                    document.getElementById('guardarRetencion').disabled = false
+                    nro_control.classList.remove("is-invalid")
+                }
+            });
+        }
+
+
         function validarCampoNumerico() {
             const patron = /^0(412|414|424|426|416|212|243|244|246|242|245|241|235|238)\d{7}$/;
             var phone = document.querySelector('#clientphone').value
@@ -148,7 +284,6 @@
                 return false
             }
             return true
-
         }
 
 
@@ -174,7 +309,7 @@
                 return false
             }
 
-            fetch('{{ route('clientes.consulta') }}', {
+            fetch('{{ route('proveedor.consulta') }}', {
                 method: 'POST',
                 body: JSON.stringify({
                     rif: rif,

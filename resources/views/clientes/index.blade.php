@@ -7,7 +7,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <a class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createModal">Nuevo cliente</a>
+                    <a class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createModal">Nuevo proveedor</a>
                 </div>
             </div>
         </div>
@@ -47,7 +47,6 @@
             {{ $clientes->render() }}
         </div>
     </div>
-    <!-- Button trigger modal -->
 @endsection
 
 
@@ -62,7 +61,7 @@
             if (window.confirm("¿Estás seguro de que deseas borrar este elemento?")) {
 
 
-                fetch('{{ route('clientes.eliminar') }}', {
+                fetch('{{ route('proveedor.eliminar') }}', {
                         method: 'POST',
                         body: JSON.stringify({
                             id: id,
@@ -100,7 +99,7 @@
 
         function modalEditar(id) {
 
-            fetch(`/clientes/${id}/edit`, {
+            fetch(`/proveedor/${id}/edit`, {
                     method: 'GET',
                     headers: {
                         'content-type': 'application/json',
@@ -117,7 +116,7 @@
                     linea = '';
 
                     linea += `
-                    <form action="clientes/${id}" method="post">
+                    <form action="proveedor/${id}" method="post">
                         {{ method_field('PUT') }}
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                         <div class="row">
@@ -150,7 +149,7 @@
                                             </div>
                                             <div class="form-floating mb-3">
                                                 <input required id="clientmail2" disabled type="email"
-                                                    class="form-control form-control-sm" name="mail"
+                                                    class="form-control form-control-sm" name="email"
                                                     placeholder="name@example.com">
                                                 <label>Correo</label>
                                             </div>
@@ -209,7 +208,7 @@
                 return false
             }
 
-            fetch('{{ route('clientes.consulta') }}', {
+            fetch('{{ route('proveedor.consulta') }}', {
                 method: 'POST',
                 body: JSON.stringify({
                     rif: rif,
@@ -222,7 +221,6 @@
                 return response.json()
             }).then(data => {
                 if (edit == '2') {
-                    console.log('asdasd')
                     document.querySelector('#clientname2').disabled = false
                     document.querySelector('#clientaddress2').disabled = false
                     document.querySelector('#clientphone2').disabled = false
@@ -231,7 +229,7 @@
                     document.querySelector('#clientname2').value = data.data.name;
                     document.querySelector('#clientaddress2').value = data.data.address;
                     document.querySelector('#clientphone2').value = data.data.phone;
-                    document.querySelector('#clientmail2').value = data.data.mail;
+                    document.querySelector('#clientmail2').value = data.data.email;
                     document.querySelector('#rif2').focus()
 
                 } else if (data.status === 400) {
@@ -277,7 +275,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Registrar cliente</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Registrar proveedor</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -285,7 +283,11 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    {!! Form::open(['route' => 'clientes.store', 'method' => 'POST', 'onsubmit' => 'return validarCampoNumerico()']) !!}
+                                    {!! Form::open([
+                                        'route' => 'proveedor.store',
+                                        'method' => 'POST',
+                                        'onsubmit' => 'return validarCampoNumerico()',
+                                    ]) !!}
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-floating mb-3 input-group ">
@@ -316,7 +318,7 @@
                                             </div>
                                             <div class="form-floating mb-3">
                                                 <input required id="clientmail" disabled type="email"
-                                                    class="form-control form-control-sm" name="mail"
+                                                    class="form-control form-control-sm" name="email"
                                                     placeholder="name@example.com">
                                                 <label>Correo</label>
                                             </div>

@@ -13,14 +13,17 @@ return new class extends Migration
     {
         Schema::create('retencions', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('client_id');
-            $table->string('nro_factura');
+            $table->foreignId('proveedor_id')->constrained('proveedors');
+            $table->foreignId('empresa_id')->constrained('datos_empresas');
+            $table->tinyInteger('report_id');
+            $table->integer('nro_factura')->unique();
             $table->string('nro_control');
-            $table->string('nro_comprobante')->nullable();
+            $table->string('nro_comprobante');
             $table->date('fecha_factura');
             $table->double('monto', 20, 2);
-            $table->tinyInteger('empresa_id');
-            $table->boolean('status')->default(0);
+            $table->string('ruta')->nullable();
+            $table->text('b64')->nullable();
+            $table->boolean('status')->default(1); // [0 => inactivo/anulado, 1 => activo]
             $table->timestamps();
         });
     }

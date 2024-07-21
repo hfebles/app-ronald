@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('datos_empresas', function (Blueprint $table) {
             $table->id();
             $table->string('name_empresa');
-            $table->string('rif_empresa');
+            $table->string('rif_empresa')->unique();
             $table->string('address_empresa');
             $table->string('telefono')->nullable();
-            $table->string('mail')->nullable();
-            $table->string('nro_correlativo')->nullable();
+            $table->string('email')->nullable();
+            $table->string('nro_correlativo')->default(0);
             $table->date('anio_fiscal');
             $table->timestamps();
         });

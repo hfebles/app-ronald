@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('clientes', function (Blueprint $table) {
+        Schema::create('proveedors', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('rif')->unique();
             $table->text('address');
             $table->boolean('ag')->default(0);
-            $table->tinyInteger('percent');
+            $table->tinyInteger('percent')->default(0);
             $table->string('phone', 20);
-            $table->string('mail', 50);
+            $table->string('email', 50);
             $table->boolean('active')->default(1);
             $table->timestamps();
         });
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('clientes');
+        Schema::dropIfExists('proveedors');
     }
 };

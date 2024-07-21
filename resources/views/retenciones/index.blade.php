@@ -20,6 +20,7 @@
                         <th class="d-none d-sm-block">#</th>
                         <th>comprobante</th>
                         <th>Fecha</th>
+                        <th>Factura</th>
                         <th>Cliente</th>
                         <th>Empresa</th>
                     </tr>
@@ -32,6 +33,7 @@
                                     target="_blank">{{ $retencion->nro_comprobante }}</a>
                             </td>
                             <td>{{ date('d/m/Y', strtotime($retencion->created_at)) }}</td>
+                            <td>{{ $retencion->nro_factura }}</td>
                             <td>{{ $retencion->name }}</td>
                             <td>{{ $retencion->name_empresa }}</td>
                         </tr>
